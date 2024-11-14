@@ -6,8 +6,10 @@ import { Link } from 'react-router-dom';
 function Footer(props) {
   return (
     <footer>
-      <Container fluid>
-        <Row className="p-4">
+      <Container fluid className="mt-5">
+        <Row>
+          <Col></Col>
+          <Col></Col>
           <Col>
             <Link to="/">
               <img src={Logo} alt="Webdevs.com logo image" className="logo" />

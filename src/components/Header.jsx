@@ -10,7 +10,7 @@ function Header(props) {
   const path = location.pathname;
 
   return (
-    <Navbar sticky="top">
+    <Navbar expand="lg" sticky="top">
       <Container className="d-flex align-items-center">
         <Navbar.Brand>
           <Link to="/">

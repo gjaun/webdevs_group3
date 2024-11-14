@@ -1,26 +1,69 @@
 import React from 'react';
+import { useEffect, useState } from 'react';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 
 function MySurveys(props) {
-  return (
-    <div>
-      <h1>My Surveys</h1>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aperiam
-        molestiae distinctio non voluptatem nam corrupti tempora maiores optio
-        impedit? Exercitationem quod dolorem dolor fugiat delectus cupiditate ea
-        labore explicabo deserunt! Lorem ipsum dolor sit, amet consectetur
-        adipisicing elit. Aspernatur distinctio impedit molestias accusantium
-        earum cupiditate tenetur nesciunt omnis blanditiis ex. Quod, a at? Sunt
-        voluptatem eligendi delectus soluta, corrupti harum.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque debitis
-        eligendi voluptas saepe error dignissimos, totam ea facilis, distinctio
-        reiciendis beatae fuga eum repudiandae delectus culpa voluptates aperiam
-        dolor pariatur.
-      </p>
-    </div>
-  );
+  const [surveys, setSurveys] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/surveys', {});
+
+        if (!response.ok) {
+          throw new Error('Error occured');
+        }
+
+        const data = await response.json();
+        console.log(data);
+        setSurveys(data);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (error) {
+    return (
+      <Container>
+        <div>Error: {error}</div>
+      </Container>
+    );
+  } else {
+    return (
+      <Container>
+        <Row>
+          <Col>
+            <h1>My Surveys</h1>
+            <ul>
+              {surveys.map((item) => {
+                return (
+                  <li key={item._id} className="surveyList">
+                    <div className="surveyDesc">
+                      <p>Name: {item.name}</p>
+                      <p>Type: {item.type}</p>
+                      <p>Creator: {item.creator}</p>
+                    </div>
+                    <Button variant="outline-dark" size="sm">
+                      Edit
+                    </Button>
+                    <Button variant="outline-dark" size="sm">
+                      Run
+                    </Button>
+                    <Button variant="outline-dark" size="sm">
+                      Delete
+                    </Button>
+                  </li>
+                );
+              })}
+            </ul>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
 }
 
 export default MySurveys;

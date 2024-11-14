@@ -1,8 +1,9 @@
 import React from 'react';
+import { Container, Button } from 'react-bootstrap';
 
 function Home(props) {
   return (
-    <div>
+    <Container>
       <h1>Home Page</h1>
       <p>
         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aperiam
@@ -19,7 +20,15 @@ function Home(props) {
         reiciendis beatae fuga eum repudiandae delectus culpa voluptates aperiam
         dolor pariatur.
       </p>
-    </div>
+      <div style={{ display: 'flex', justifyContent: 'end' }}>
+        <Button variant="outline-dark" size="md">
+          Log In
+        </Button>
+        <Button variant="outline-dark" size="md">
+          Registration
+        </Button>
+      </div>
+    </Container>
   );
 }
 
