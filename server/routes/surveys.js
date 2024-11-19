@@ -5,7 +5,12 @@ const Survey = require('../models/survey');
 // Getting all surveys
 router.get('/', async (req, res) => {
   try {
-    const surveys = await Survey.find();
+    const userId = req.user.id;
+    // find matching userId for display only surveys user created
+    const surveys = await Survey.find({ creator: userId }).populate(
+      'creator',
+      'username'
+    );
     res.json(surveys);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -31,9 +36,9 @@ router.post('/', async (req, res) => {
   const survey = new Survey({
     name: req.body.name,
     type: req.body.type,
-    creator: req.body.creator,
-    password: req.body.password,
-    user_pass: req.body.user_pass,
+    creator: req.user.id,
+    // password: req.body.password,
+    // user_pass: req.body.user_pass,
   });
   try {
     const newSurvey = await survey.save();

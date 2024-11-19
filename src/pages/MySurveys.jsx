@@ -30,7 +30,26 @@ function MySurveys() {
     };
 
     fetchData();
-  }, [navigate]);
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/auth/logout', {
+        method: 'POST',
+        credentials: 'include', // include cookies
+      });
+
+      if (response.ok) {
+        alert('You have been logged out');
+        navigate('/'); // redirect to home page
+      } else {
+        throw new Error('Logout failed');
+      }
+    } catch (err) {
+      console.log('Error during logout: ', err.message);
+      alert('An error occurred while logging out');
+    }
+  };
 
   if (error) {
     return (
@@ -53,14 +72,22 @@ function MySurveys() {
           >
             Create Survey
           </Button>
+          <Button
+            variant="outline-dark"
+            size="sm"
+            className="mb=3"
+            onClick={handleLogout}
+          >
+            Logout
+          </Button>
           {surveys.length > 0 ? (
             <ul>
               {surveys.map((item) => (
                 <li key={item._id} className="surveyList">
                   <div className="surveyDesc">
-                    <p>Name: {item.name}</p>
-                    <p>Type: {item.type}</p>
-                    <p>Creator: {item.creator}</p>
+                    <p>Name: {item?.name}</p>
+                    <p>Type: {item?.type}</p>
+                    <p>Creator: {item?.creator?.username}</p>
                   </div>
                   <Button variant="outline-dark" size="sm">
                     Edit
@@ -75,7 +102,7 @@ function MySurveys() {
               ))}
             </ul>
           ) : (
-            <p>No Surveys available...</p> // Message when no surveys exist
+            <p>No Surveys available...</p> // message when no surveys exist
           )}
         </Col>
       </Row>

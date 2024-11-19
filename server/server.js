@@ -4,6 +4,7 @@ const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const { requireAuth } = require('./utils/utils');
 
 const corsOptions = {
   origin: ['http://localhost:3000', 'http://localhost:5173'],
@@ -25,7 +26,7 @@ const questionsRouter = require('./routes/questions');
 const surveysRouter = require('./routes/surveys');
 
 app.use('/auth', authRouter);
-app.use('/questions', questionsRouter);
-app.use('/surveys', surveysRouter);
+app.use('/questions', requireAuth, questionsRouter); // added requireAuth
+app.use('/surveys', requireAuth, surveysRouter); // added requireAuth
 
 app.listen(8080, () => console.log('Server Started'));
