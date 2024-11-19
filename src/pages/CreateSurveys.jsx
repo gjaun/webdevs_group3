@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { Button, Form, Row, Col } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 function CreateSurveys(props) {
   const [validated, setValidated] = useState(false);
@@ -11,6 +12,7 @@ function CreateSurveys(props) {
     password: '',
     user_pass: '',
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,6 +50,7 @@ function CreateSurveys(props) {
           user_pass: '',
         });
         setValidated(false);
+        navigate('/mysurveys'); // navigate to mysurveys page
       } else {
         alert('Failed to submit survey...');
       }
