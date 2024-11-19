@@ -1,7 +1,10 @@
 import React from 'react';
 import { Container, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 function Home(props) {
+  const navigate = useNavigate();
+
   return (
     <Container>
       <h1>Home Page</h1>
@@ -21,10 +24,18 @@ function Home(props) {
         dolor pariatur.
       </p>
       <div style={{ display: 'flex', justifyContent: 'end' }}>
-        <Button variant="outline-dark" size="md">
+        <Button
+          variant="outline-dark"
+          size="md"
+          onClick={() => navigate('/login')}
+        >
           Log In
         </Button>
-        <Button variant="outline-dark" size="md">
+        <Button
+          variant="outline-dark"
+          size="md"
+          onClick={() => navigate('/registration')}
+        >
           Registration
         </Button>
       </div>

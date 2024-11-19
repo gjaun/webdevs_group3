@@ -1,11 +1,9 @@
 import React from 'react';
 import Logo from '../assets/images/TeamLogo_Transparent.png';
 import { Link, useLocation } from 'react-router-dom';
-import { Container } from 'react-bootstrap';
-import { Nav } from 'react-bootstrap';
-import { Navbar } from 'react-bootstrap';
+import { Container, Nav, Navbar } from 'react-bootstrap';
 
-function Header(props) {
+function Header() {
   const location = useLocation();
   const path = location.pathname;
 
@@ -23,19 +21,6 @@ function Header(props) {
             <Nav.Item className="mx-2">
               <Link to="/" className={path === '/' ? 'active' : ''}>
                 Home
-              </Link>
-            </Nav.Item>
-            <Nav.Item className="mx-2">
-              <Link
-                to="/mysurveys"
-                className={path === '/mysurveys' ? 'active' : ''}
-              >
-                My Surveys
-              </Link>
-            </Nav.Item>
-            <Nav.Item className="mx-2">
-              <Link to="/create" className={path === '/create' ? 'active' : ''}>
-                Create Surveys
               </Link>
             </Nav.Item>
           </Nav>
