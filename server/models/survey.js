@@ -1,26 +1,19 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const surveySchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
   },
   type: {
     type: String,
-    required: true
+    required: true,
   },
   creator: {
-    type: String,
-    required: true
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user', // referring user model
+    required: true,
   },
-  password: {
-    type: String,
-    required: true
-  },
-  user_pass: {
-    type: String,
-    required: true
-  }
-})
+});
 
-module.exports = mongoose.model('Survey', surveySchema)
+module.exports = mongoose.model('Survey', surveySchema);

@@ -8,9 +8,9 @@ function CreateSurveys(props) {
   const [formData, setFormData] = useState({
     name: '',
     type: '',
-    creator: '',
-    password: '',
-    user_pass: '',
+    // creator: '',
+    // password: '',
+    // user_pass: '',
   });
   const navigate = useNavigate();
 
@@ -38,6 +38,7 @@ function CreateSurveys(props) {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(formData),
       });
       if (response.ok) {
@@ -45,9 +46,9 @@ function CreateSurveys(props) {
         setFormData({
           name: '',
           type: '',
-          creator: '',
-          password: '',
-          user_pass: '',
+          // creator: '',
+          // password: '',
+          // user_pass: '',
         });
         setValidated(false);
         navigate('/mysurveys'); // navigate to mysurveys page
@@ -89,7 +90,7 @@ function CreateSurveys(props) {
           />
           <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
         </Form.Group>
-        <Form.Group controlId="validationCustom03">
+        {/* <Form.Group controlId="validationCustom03">
           <Form.Label>Creator</Form.Label>
           <Form.Control
             type="text"
@@ -101,8 +102,8 @@ function CreateSurveys(props) {
             onChange={handleChange}
           />
           <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group controlId="validationCustom04">
+        </Form.Group> */}
+        {/* <Form.Group controlId="validationCustom04">
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
@@ -116,8 +117,8 @@ function CreateSurveys(props) {
           <Form.Control.Feedback type="invalid">
             Please provide a valid password
           </Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group controlId="validationCustom05">
+        </Form.Group> */}
+        {/* <Form.Group controlId="validationCustom05">
           <Form.Label>User Password</Form.Label>
           <Form.Control
             type="password"
@@ -131,7 +132,7 @@ function CreateSurveys(props) {
           <Form.Control.Feedback type="invalid">
             Please provide a valid password.
           </Form.Control.Feedback>
-        </Form.Group>
+        </Form.Group> */}
         <Button variant="outline-dark" size="sm" type="submit" className="mt-5">
           Submit form
         </Button>
