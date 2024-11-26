@@ -1,25 +1,36 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-function MySurveys() {
-  const [surveys, setSurveys] = useState([]);
+function EditSurvey() {
+  const [questions, setSurveys] = useState([]);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const params = useParams();
+  const [formData, setFormData] = useState({
+    surveyid: params.id,
+    // creator: '',
+    // password: '',
+    // user_pass: '',
+  });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/surveys', {
-          method: 'GET',
+        const response = await fetch('http://localhost:8080/questions/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
           credentials: 'include', // include cookies
+          body: JSON.stringify(formData),
         });
 
         if (response.status === 401) {
           navigate('/login'); // redirect to login page if unauthorized
         } else if (!response.ok) {
-          throw new Error('Failed to load surveys');
+          throw new Error('Failed to load questions');
         } else {
           const data = await response.json();
           setSurveys(data);
@@ -51,36 +62,15 @@ function MySurveys() {
     }
   };
 
-  const handleDeleteS = async (id) => {
+  const handleDelete = async (id) => {
     try {
-      const response = await fetch('http://localhost:8080/surveys/' + id, {
+      const response = await fetch('http://localhost:8080/questions/' + id, {
         method: 'DELETE',
         credentials: 'include', // include cookies
       });
 
       if (response.ok) {
-        alert('Survey Deleted');
-        questionsDelete(id)
-      } else {
-        throw new Error('Delete failed');
-      }
-    } catch (err) {
-      console.log('Error during Delete: ', err.message);
-      alert('An error occurred while deleting');
-    }
-  };
-
-  const questionsDelete = async (id) => {
-    const data = { surveyid: id}
-    try {
-      const response = await fetch('http://localhost:8080/questions', {
-        method: 'DELETE',
-        credentials: 'include', // include cookies
-        body: JSON.stringify(data),
-      });
-
-      if (response.ok) {
-        alert('Questions Deleted');
+        alert('Question Deleted');
       } else {
         throw new Error('Delete failed');
       }
@@ -103,14 +93,14 @@ function MySurveys() {
     <Container>
       <Row>
         <Col>
-          <h1>My Surveys</h1>
+          <h1>Questions</h1>
           <Button
             variant="outline-dark"
             size="sm"
             className="mb=3"
-            onClick={() => navigate('/create')}
+            onClick={() => navigate('/add/' + params.id + '/' + params.name)}
           >
-            Create Survey
+            Add Question
           </Button>
           <Button
             variant="outline-dark"
@@ -120,29 +110,25 @@ function MySurveys() {
           >
             Logout
           </Button>
-          {surveys.length > 0 ? (
+          {questions.length > 0 ? (
             <ul>
-              {surveys.map((item) => (
+              {questions.map((item) => (
                 <li key={item._id} className="surveyList">
                   <div className="surveyDesc">
-                    <p>Name: {item?.name}</p>
-                    <p>Type: {item?.type}</p>
-                    <p>Creator: {item?.creator?.username}</p>
+                    <p>Question: {item?.question}</p>
+                    <p>Survey Name: {params.name}</p>
                   </div>
-                  <Button variant="outline-dark" size="sm" onClick={() => navigate('/edit/' + item._id + "/" + item.name)}>
-                    Edit
-                  </Button>
-                  <Button variant="outline-dark" size="sm" onClick={() => navigate('/run/' + item._id + '/' + item.name)}>
-                    Run
-                  </Button>
-                  <Button variant="outline-dark" size="sm" onClick={() => handleDeleteS(item._id)}>
+                  <Button variant="outline-dark" size="sm" onClick={() => handleDelete(item._id)}>
                     Delete
+                  </Button>
+                  <Button variant="outline-dark" size="sm" onClick={() => navigate('/update/' + params.id + '/' + params.name + '/' + item._id + '/' + item.question)}>
+                    Edit
                   </Button>
                 </li>
               ))}
             </ul>
           ) : (
-            <p>No Surveys available...</p> // message when no surveys exist
+            <p>No questions available...</p> // message when no questions exist
           )}
         </Col>
       </Row>
@@ -150,4 +136,4 @@ function MySurveys() {
   );
 }
 
-export default MySurveys;
+export default EditSurvey;

@@ -6,8 +6,9 @@ import { Container, Nav, Navbar } from 'react-bootstrap';
 function Header() {
   const location = useLocation();
   const path = location.pathname;
-
   return (
+    <>
+    <h1>SimpleSurvey.com</h1>
     <Navbar expand="lg" sticky="top">
       <Container className="d-flex align-items-center">
         <Navbar.Brand>
@@ -27,6 +28,7 @@ function Header() {
         </Navbar.Collapse>
       </Container>
     </Navbar>
+    </>
   );
 }
 

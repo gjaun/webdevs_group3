@@ -38,6 +38,23 @@ div button:nth-child(1) {
   justify-content: space-between;
 }
 
+.inputField {
+  width: 500px;
+}
+
+.homeAlign {
+  display: flex;
+}
+
+.homeTxt {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.imgBorder {
+  border: 1px solid black;
+}
+
 .surveyList button {
   margin-right: 20px;
 }
