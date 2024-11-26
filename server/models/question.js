@@ -6,10 +6,6 @@ const questionSchema = new mongoose.Schema({
     required: true
   },
   surveyid: {
-    type: Number,
-    required: true
-  },
-  type: {
     type: String,
     required: true
   }

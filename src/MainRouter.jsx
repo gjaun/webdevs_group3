@@ -8,6 +8,10 @@ import CreateSurveys from './pages/CreateSurveys';
 import Footer from './components/Footer';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
+import Edit from './pages/Edit';
+import Add from './pages/Add';
+import Update from './pages/Update';
+import Run from './pages/Run';
 
 function MainRouter(props) {
   return (
@@ -19,6 +23,10 @@ function MainRouter(props) {
         <Route exact path="/registration" element={<Registration />} />
         <Route exact path="/mysurveys" element={<MySurveys />} />
         <Route exact path="/create" element={<CreateSurveys />} />
+        <Route exact path="/edit/:id/:name" element={<Edit />} />
+        <Route exact path="/add/:id/:name" element={<Add />} />
+        <Route exact path="/update/:id/:name/:qid/:question" element={<Update />} />
+        <Route exact path="/run/:id/:name" element={<Run />} />
       </Routes>
       <Footer />
     </Wrapper>
