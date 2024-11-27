@@ -1,12 +1,12 @@
 import React from "react";
 import Logo from "../assets/images/TeamLogo_Transparent.png";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Container, Nav, Navbar } from "react-bootstrap";
 
 function Header() {
   const location = useLocation();
   const path = location.pathname;
-
+  const navigate = useNavigate();
   // paths for hide home link
   const isLoginPage = path === "/login";
   const isRegistrationPage = path === "/registration";
@@ -16,6 +16,7 @@ function Header() {
   const isUpdatePage = path.startsWith("/update");
   const isRunPage = path.startsWith("/run");
   const isAddPage = path.startsWith("/add");
+  const isHomePage = path.startsWith("/home");
 
   const hideHome =
     isCreatePage ||
@@ -24,6 +25,26 @@ function Header() {
     isRunPage ||
     isMySurveyPage ||
     isAddPage;
+
+    const handleLogout = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/auth/logout", {
+          method: "POST",
+          credentials: "include", // include cookies
+        });
+  
+        if (response.ok) {
+          alert("You have been logged out");
+          window.globalVariable = false;
+          navigate("/home"); // redirect to home page
+        } else {
+          throw new Error("Logout failed");
+        }
+      } catch (err) {
+        console.log("Error during logout: ", err.message);
+        alert("An error occurred while logging out", err.message);
+      }
+    };
 
   return (
     <Navbar expand="lg" sticky="top">
@@ -36,14 +57,12 @@ function Header() {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav" className="justify-content">
           <Nav className="me-auto">
-            {!hideHome && (
               <Nav.Item className="mx-2">
-                <Link to="/" className={path === "/" ? "active" : ""}>
+                <Link to="/home" className={path === "/home" ? "active" : ""}>
                   Home
                 </Link>
               </Nav.Item>
-            )}
-            {(isLoginPage || isRegistrationPage) && !isMySurveyPage && (
+            {(isHomePage || isLoginPage || isRegistrationPage) && (
               <>
                 <Nav.Item className="mx-2">
                   <Link
@@ -63,13 +82,62 @@ function Header() {
                 </Nav.Item>
               </>
             )}
-            {isMySurveyPage && (
+            {(isMySurveyPage || isAddPage || isEditPage || isUpdatePage || isRunPage) && (
               <Nav.Item className="mx-2">
                 <Link
                   to="/mysurveys"
                   className={path === "/mysurveys" ? "active" : ""}
                 >
                   My Surveys
+                </Link>
+              </Nav.Item>
+            )}
+            {(isHomePage && window.globalVariable) && (
+              <Nav.Item className="mx-2">
+                <Link
+                  to="/mysurveys"
+                  className={path === "/mysurveys" ? "active" : ""}
+                >
+                  My Surveys
+                </Link>
+              </Nav.Item>
+            )}
+            {window.globalVariable && (
+              <Nav.Item className="mx-2">
+                <Link
+                  onClick={() => handleLogout()}
+                >
+                  Logout
+                </Link>
+              </Nav.Item>
+            )}
+            {isEditPage && (
+              <Nav.Item className="mx-2">
+                <Link
+                  to="/edit"
+                  className={path === "/edit/:id/:name" ? "active" : ""}
+                >
+                  Edit
+                </Link>
+              </Nav.Item>
+            )}
+            {isRunPage && (
+              <Nav.Item className="mx-2">
+                <Link
+                  to="/run"
+                  className={path === "/run" ? "active" : ""}
+                >
+                  Run
+                </Link>
+              </Nav.Item>
+            )}
+            {isAddPage && (
+              <Nav.Item className="mx-2">
+                <Link
+                  to="/add"
+                  className={path === "/add" ? "active" : ""}
+                >
+                  Add
                 </Link>
               </Nav.Item>
             )}

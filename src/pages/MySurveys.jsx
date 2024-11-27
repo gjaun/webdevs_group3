@@ -32,25 +32,6 @@ function MySurveys() {
     fetchData();
   }, []);
 
-  const handleLogout = async () => {
-    try {
-      const response = await fetch("http://localhost:8080/auth/logout", {
-        method: "POST",
-        credentials: "include", // include cookies
-      });
-
-      if (response.ok) {
-        alert("You have been logged out");
-        navigate("/"); // redirect to home page
-      } else {
-        throw new Error("Logout failed");
-      }
-    } catch (err) {
-      console.log("Error during logout: ", err.message);
-      alert("An error occurred while logging out");
-    }
-  };
-
   const handleDeleteS = async (id) => {
     try {
       const response = await fetch("http://localhost:8080/surveys/" + id, {
@@ -112,14 +93,6 @@ function MySurveys() {
               onClick={() => navigate("/create")}
             >
               Create Survey
-            </Button>
-            <Button
-              variant="outline-dark"
-              size="lg"
-              className="mb=3"
-              onClick={handleLogout}
-            >
-              Logout
             </Button>
           </div>
 
