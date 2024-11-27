@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { Container } from 'react-bootstrap';
-import { Button, Form, Row, Col } from 'react-bootstrap';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useState } from "react";
+import { Container } from "react-bootstrap";
+import { Button, Form, Row, Col } from "react-bootstrap";
+import { useNavigate, useParams } from "react-router-dom";
 
 function CreateSurveys(props) {
   const [validated, setValidated] = useState(false);
   const params = useParams();
   const [formData, setFormData] = useState({
-    name: '',
-    type: '',
+    name: "",
+    type: "",
     // creator: '',
     // password: '',
     // user_pass: '',
@@ -26,9 +26,9 @@ function CreateSurveys(props) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = {
-        question: formData.name,
-        surveyid: params.id,
-    }
+      question: formData.name,
+      surveyid: params.id,
+    };
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.stopPropagation();
@@ -37,30 +37,30 @@ function CreateSurveys(props) {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/questions/add', {
-        method: 'POST',
+      const response = await fetch("http://localhost:8080/questions/add", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        credentials: 'include',
+        credentials: "include",
         body: JSON.stringify(data),
       });
       if (response.ok) {
-        alert('Question Created');
+        alert("Question Created");
         setFormData({
-          name: '',
-          type: '',
+          name: "",
+          type: "",
           // creator: '',
           // password: '',
           // user_pass: '',
         });
         setValidated(false);
-        navigate('/edit/' + params.id + '/' + params.name); // navigate to edit page
+        navigate("/edit/" + params.id + "/" + params.name); // navigate to edit page
       } else {
-        alert('Failed to submit question...');
+        alert("Failed to submit question...");
       }
     } catch (error) {
-      console.log('Error: ', error);
+      console.log("Error: ", error);
     }
   };
 
@@ -74,7 +74,7 @@ function CreateSurveys(props) {
             required
             type="text"
             placeholder="Question"
-            size="sm"
+            size="lg"
             name="name"
             value={formData.name}
             onChange={handleChange}
@@ -137,9 +137,16 @@ function CreateSurveys(props) {
             Please provide a valid password.
           </Form.Control.Feedback>
         </Form.Group> */}
-        <Button variant="outline-dark" size="sm" type="submit" className="mt-5">
-          Submit form
-        </Button>
+        <div style={{ display: "flex", justifyContent: "end" }}>
+          <Button
+            variant="outline-dark"
+            size="lg"
+            type="submit"
+            className="mt-5"
+          >
+            Submit form
+          </Button>
+        </div>
       </Form>
     </Container>
   );

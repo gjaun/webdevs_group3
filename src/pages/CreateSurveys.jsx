@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { Container } from 'react-bootstrap';
-import { Button, Form, Row, Col } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { Container } from "react-bootstrap";
+import { Button, Form, Row, Col } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 function CreateSurveys(props) {
   const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    type: '',
+    name: "",
+    type: "",
     // creator: '',
     // password: '',
     // user_pass: '',
@@ -33,30 +33,30 @@ function CreateSurveys(props) {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/surveys/', {
-        method: 'POST',
+      const response = await fetch("http://localhost:8080/surveys/", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        credentials: 'include',
+        credentials: "include",
         body: JSON.stringify(formData),
       });
       if (response.ok) {
-        alert('Survey created');
+        alert("Survey created");
         setFormData({
-          name: '',
-          type: '',
+          name: "",
+          type: "",
           // creator: '',
           // password: '',
           // user_pass: '',
         });
         setValidated(false);
-        navigate('/mysurveys'); // navigate to mysurveys page
+        navigate("/mysurveys"); // navigate to mysurveys page
       } else {
-        alert('Failed to submit survey...');
+        alert("Failed to submit survey...");
       }
     } catch (error) {
-      console.log('Error: ', error);
+      console.log("Error: ", error);
     }
   };
 
@@ -70,7 +70,7 @@ function CreateSurveys(props) {
             required
             type="text"
             placeholder="Survey name"
-            size="sm"
+            size="lg"
             name="name"
             value={formData.name}
             onChange={handleChange}
@@ -83,7 +83,7 @@ function CreateSurveys(props) {
             required
             type="text"
             placeholder="Survey Type"
-            size="sm"
+            size="lg"
             name="type"
             value={formData.type}
             onChange={handleChange}
@@ -133,9 +133,16 @@ function CreateSurveys(props) {
             Please provide a valid password.
           </Form.Control.Feedback>
         </Form.Group> */}
-        <Button variant="outline-dark" size="sm" type="submit" className="mt-5">
-          Submit form
-        </Button>
+        <div style={{ display: "flex", justifyContent: "end" }}>
+          <Button
+            variant="outline-dark"
+            size="lg"
+            type="submit"
+            className="mt-5"
+          >
+            Submit form
+          </Button>
+        </div>
       </Form>
     </Container>
   );
