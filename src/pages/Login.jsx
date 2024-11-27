@@ -29,6 +29,8 @@ function Login(props) {
       });
 
       if (response.status === 200) {
+        window.globalVariable = true;
+        window.globalVariable2 = false;
         navigate("/mysurveys");
       } else {
         const resData = await response.json();
