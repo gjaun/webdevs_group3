@@ -16,15 +16,6 @@ function Header() {
   const isUpdatePage = path.startsWith("/update");
   const isRunPage = path.startsWith("/run");
   const isAddPage = path.startsWith("/add");
-  const isHomePage = path.startsWith("/home");
-
-  const hideHome =
-    isCreatePage ||
-    isEditPage ||
-    isUpdatePage ||
-    isRunPage ||
-    isMySurveyPage ||
-    isAddPage;
 
     const handleLogout = async () => {
       try {
@@ -36,7 +27,8 @@ function Header() {
         if (response.ok) {
           alert("You have been logged out");
           window.globalVariable = false;
-          navigate("/home"); // redirect to home page
+          window.globalVariable2 = true;
+          navigate("/"); // redirect to home page
         } else {
           throw new Error("Logout failed");
         }
@@ -58,11 +50,11 @@ function Header() {
         <Navbar.Collapse id="responsive-navbar-nav" className="justify-content">
           <Nav className="me-auto">
               <Nav.Item className="mx-2">
-                <Link to="/home" className={path === "/home" ? "active" : ""}>
+                <Link to="/" className={path === "/" ? "active" : ""}>
                   Home
                 </Link>
               </Nav.Item>
-            {(isHomePage || isLoginPage || isRegistrationPage) && (
+            {(window.globalVariable2 || isLoginPage || isRegistrationPage) && (
               <>
                 <Nav.Item className="mx-2">
                   <Link
@@ -82,17 +74,7 @@ function Header() {
                 </Nav.Item>
               </>
             )}
-            {(isMySurveyPage || isAddPage || isEditPage || isUpdatePage || isRunPage) && (
-              <Nav.Item className="mx-2">
-                <Link
-                  to="/mysurveys"
-                  className={path === "/mysurveys" ? "active" : ""}
-                >
-                  My Surveys
-                </Link>
-              </Nav.Item>
-            )}
-            {(isHomePage && window.globalVariable) && (
+            {(window.globalVariable) && (
               <Nav.Item className="mx-2">
                 <Link
                   to="/mysurveys"
@@ -115,9 +97,19 @@ function Header() {
               <Nav.Item className="mx-2">
                 <Link
                   to="/edit"
-                  className={path === "/edit/:id/:name" ? "active" : ""}
+                  className={path === "/edit" ? "active" : ""}
                 >
                   Edit
+                </Link>
+              </Nav.Item>
+            )}
+            {isUpdatePage && (
+              <Nav.Item className="mx-2">
+                <Link
+                  to="/update"
+                  className={path === "/update" ? "active" : ""}
+                >
+                  Update
                 </Link>
               </Nav.Item>
             )}
@@ -143,14 +135,6 @@ function Header() {
             )}
             {isCreatePage && (
               <>
-                <Nav.Item className="mx-2">
-                  <Link
-                    to="/mysurveys"
-                    className={path === "/mysurveys" ? "active" : ""}
-                  >
-                    My Surveys
-                  </Link>
-                </Nav.Item>
                 <Nav.Item className="mx-2">
                   <Link
                     to="/create"

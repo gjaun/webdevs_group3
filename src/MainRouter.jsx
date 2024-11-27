@@ -18,7 +18,7 @@ function MainRouter(props) {
     <Wrapper>
       <Header />
       <Routes>
-        <Route exact path="/home" element={<Home />} />
+        <Route exact path="/" element={<Home />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/registration" element={<Registration />} />
         <Route exact path="/mysurveys" element={<MySurveys />} />

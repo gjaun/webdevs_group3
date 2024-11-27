@@ -23,25 +23,6 @@ function CreateSurveys(props) {
     }));
   };
 
-  const handleLogout = async () => {
-    try {
-      const response = await fetch("http://localhost:8080/auth/logout", {
-        method: "POST",
-        credentials: "include", // include cookies
-      });
-
-      if (response.ok) {
-        alert("You have been logged out");
-        navigate("/"); // redirect to home page
-      } else {
-        throw new Error("Logout failed");
-      }
-    } catch (err) {
-      console.log("Error during logout: ", err.message);
-      alert("An error occurred while logging out");
-    }
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = {
@@ -98,14 +79,6 @@ function CreateSurveys(props) {
           onClick={() => navigate("/edit/" + params.id + "/" + params.name)}
         >
           Back to questions
-        </Button>
-        <Button
-          variant="outline-dark"
-          size="lg"
-          className="mb-3"
-          onClick={handleLogout}
-        >
-          Logout
         </Button>
       </div>
 

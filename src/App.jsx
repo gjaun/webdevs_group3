@@ -4,6 +4,7 @@ import MainRouter from './MainRouter';
 import './App.css';
 
 window.globalVariable = false;
+window.globalVariable2 = true;
 
 function App() {
   return (
