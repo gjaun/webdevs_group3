@@ -1,24 +1,24 @@
-const express = require('express');
-const jwt = require('jsonwebtoken');
+const express = require("express");
+const jwt = require("jsonwebtoken");
 const router = express.Router();
-const User = require('../models/user');
-const { createToken } = require('../utils/utils');
+const User = require("../models/user");
+const { createToken } = require("../utils/utils");
 
 // registration route
-router.post('/registration', async (req, res) => {
+router.post("/registration", async (req, res) => {
   try {
     const { username, password } = req.body;
 
     if (!username || !password) {
       return res
         .status(400)
-        .json({ message: 'Username and password are required' });
+        .json({ message: "Username and password are required" });
     }
 
     // check if username already exists
     const existingUser = await User.findOne({ username });
     if (existingUser) {
-      return res.status(400).json({ message: 'Username already exists' });
+      return res.status(400).json({ message: "Username already exists" });
     }
 
     // create a new user
@@ -28,32 +28,33 @@ router.post('/registration', async (req, res) => {
     const token = createToken(user._id);
 
     // set cookie with JWT
-    res.cookie('jwt', token, {
+    res.cookie("jwt", token, {
       httpOnly: true,
+      secure: false,
       maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days
-      sameSite: 'Lax', // cross-site requests
+      sameSite: "Lax", // cross-site requests
     });
 
     res
       .status(201)
-      .json({ message: 'User registered successfully', userId: user._id });
+      .json({ message: "User registered successfully", userId: user._id });
   } catch (err) {
-    console.error('Error during registration:', err.message);
+    console.error("Error during registration:", err.message);
     res
       .status(500)
-      .json({ message: 'Internal server error', error: err.message });
+      .json({ message: "Internal server error", error: err.message });
   }
 });
 
 // login route
-router.post('/login', async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
 
     if (!username || !password) {
       return res
         .status(400)
-        .json({ message: 'Username and password are required' });
+        .json({ message: "Username and password are required" });
     }
 
     // authenticate user
@@ -63,32 +64,32 @@ router.post('/login', async (req, res) => {
     const token = createToken(user._id);
 
     // set cookie with JWT
-    res.cookie('jwt', token, {
+    res.cookie("jwt", token, {
       httpOnly: true,
       secure: false,
       maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days
-      sameSite: 'Lax', // cross-site requests
+      sameSite: "Lax", // cross-site requests
     });
 
-    res.status(200).json({ message: 'Login successful', userId: user._id });
+    res.status(200).json({ message: "Login successful", userId: user._id });
   } catch (err) {
     if (
-      err.message === 'Incorrect username' ||
-      err.message === 'Incorrect password'
+      err.message === "Incorrect username" ||
+      err.message === "Incorrect password"
     ) {
       return res.status(401).json({ message: err.message });
     }
 
-    console.error('Error during login:', err.message);
-    res.status(500).json({ message: 'Server error', error: err.message });
+    console.error("Error during login:", err.message);
+    res.status(500).json({ message: "Server error", error: err.message });
   }
 });
 
 // logout route
-router.post('/logout', (req, res) => {
+router.post("/logout", (req, res) => {
   // Clear the JWT cookie
-  res.cookie('jwt', '', { httpOnly: true, maxAge: 1 }); // Set cookie to expire immediately
-  res.status(200).json({ message: 'Logged out successfully' });
+  res.cookie("jwt", "", { httpOnly: true, maxAge: 1 }); // Set cookie to expire immediately
+  res.status(200).json({ message: "Logged out successfully" });
 });
 
 module.exports = router;

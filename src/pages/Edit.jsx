@@ -1,7 +1,7 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { Container, Row, Col, Button } from 'react-bootstrap';
-import { useNavigate, useParams } from 'react-router-dom';
+import React from "react";
+import { useState, useEffect } from "react";
+import { Container, Row, Col, Button } from "react-bootstrap";
+import { useNavigate, useParams } from "react-router-dom";
 
 function EditSurvey() {
   const [questions, setSurveys] = useState([]);
@@ -18,25 +18,25 @@ function EditSurvey() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/questions/', {
-          method: 'POST',
+        const response = await fetch("http://localhost:8080/questions/", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
-          credentials: 'include', // include cookies
+          credentials: "include", // include cookies
           body: JSON.stringify(formData),
         });
 
         if (response.status === 401) {
-          navigate('/login'); // redirect to login page if unauthorized
+          navigate("/login"); // redirect to login page if unauthorized
         } else if (!response.ok) {
-          throw new Error('Failed to load questions');
+          throw new Error("Failed to load questions");
         } else {
           const data = await response.json();
           setSurveys(data);
         }
       } catch (err) {
-        setError(err.message || 'An unknown error occurred');
+        setError(err.message || "An unknown error occurred");
       }
     };
 
@@ -45,38 +45,38 @@ function EditSurvey() {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost:8080/auth/logout', {
-        method: 'POST',
-        credentials: 'include', // include cookies
+      const response = await fetch("http://localhost:8080/auth/logout", {
+        method: "POST",
+        credentials: "include", // include cookies
       });
 
       if (response.ok) {
-        alert('You have been logged out');
-        navigate('/'); // redirect to home page
+        alert("You have been logged out");
+        navigate("/"); // redirect to home page
       } else {
-        throw new Error('Logout failed');
+        throw new Error("Logout failed");
       }
     } catch (err) {
-      console.log('Error during logout: ', err.message);
-      alert('An error occurred while logging out');
+      console.log("Error during logout: ", err.message);
+      alert("An error occurred while logging out");
     }
   };
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch('http://localhost:8080/questions/' + id, {
-        method: 'DELETE',
-        credentials: 'include', // include cookies
+      const response = await fetch("http://localhost:8080/questions/" + id, {
+        method: "DELETE",
+        credentials: "include", // include cookies
       });
 
       if (response.ok) {
-        alert('Question Deleted');
+        alert("Question Deleted");
       } else {
-        throw new Error('Delete failed');
+        throw new Error("Delete failed");
       }
     } catch (err) {
-      console.log('Error during Delete: ', err.message);
-      alert('An error occurred while deleting');
+      console.log("Error during Delete: ", err.message);
+      alert("An error occurred while deleting");
     }
     window.location.reload(false);
   };
@@ -94,22 +94,33 @@ function EditSurvey() {
       <Row>
         <Col>
           <h1>Questions</h1>
-          <Button
-            variant="outline-dark"
-            size="sm"
-            className="mb=3"
-            onClick={() => navigate('/add/' + params.id + '/' + params.name)}
-          >
-            Add Question
-          </Button>
-          <Button
-            variant="outline-dark"
-            size="sm"
-            className="mb=3"
-            onClick={handleLogout}
-          >
-            Logout
-          </Button>
+          <div style={{ display: "flex", justifyContent: "end" }}>
+            <Button
+              variant="outline-dark"
+              size="lg"
+              className="mb-3"
+              onClick={() => navigate("/mysurveys")}
+            >
+              Back to Survey
+            </Button>
+            <Button
+              variant="outline-dark"
+              size="lg"
+              className="mb-3"
+              style={{ marginRight: "25px" }}
+              onClick={() => navigate("/add/" + params.id + "/" + params.name)}
+            >
+              Add Question
+            </Button>
+            <Button
+              variant="outline-dark"
+              size="lg"
+              className="mb-3"
+              onClick={handleLogout}
+            >
+              Logout
+            </Button>
+          </div>
           {questions.length > 0 ? (
             <ul>
               {questions.map((item) => (
@@ -118,10 +129,29 @@ function EditSurvey() {
                     <p>Question: {item?.question}</p>
                     <p>Survey Name: {params.name}</p>
                   </div>
-                  <Button variant="outline-dark" size="sm" onClick={() => handleDelete(item._id)}>
+                  <Button
+                    variant="outline-dark"
+                    size="sm"
+                    onClick={() => handleDelete(item._id)}
+                  >
                     Delete
                   </Button>
-                  <Button variant="outline-dark" size="sm" onClick={() => navigate('/update/' + params.id + '/' + params.name + '/' + item._id + '/' + item.question)}>
+                  <Button
+                    variant="outline-dark"
+                    size="sm"
+                    onClick={() =>
+                      navigate(
+                        "/update/" +
+                          params.id +
+                          "/" +
+                          params.name +
+                          "/" +
+                          item._id +
+                          "/" +
+                          item.question
+                      )
+                    }
+                  >
                     Edit
                   </Button>
                 </li>
