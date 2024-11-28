@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../assets/images/TeamLogo_Transparent.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Container, Nav, Navbar } from "react-bootstrap";
+import { Container, Nav, Navbar, Button } from "react-bootstrap";
 
 function Header() {
   const location = useLocation();
@@ -17,26 +17,51 @@ function Header() {
   const isRunPage = path.startsWith("/run");
   const isAddPage = path.startsWith("/add");
 
-    const handleLogout = async () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
+
+  // check isAuthenticated or not
+  useEffect(() => {
+    const checkAuthStatus = async () => {
       try {
-        const response = await fetch("http://localhost:8080/auth/logout", {
-          method: "POST",
-          credentials: "include", // include cookies
+        const response = await fetch("http://localhost:8080/auth/status", {
+          method: "GET",
+          credentials: "include",
         });
-  
         if (response.ok) {
-          alert("You have been logged out");
-          window.globalVariable = false;
-          window.globalVariable2 = true;
-          navigate("/"); // redirect to home page
+          const data = await response.json();
+          setIsAuthenticated(data.authenticated);
         } else {
-          throw new Error("Logout failed");
+          setIsAuthenticated(false);
         }
       } catch (err) {
-        console.log("Error during logout: ", err.message);
-        alert("An error occurred while logging out", err.message);
+        console.log("Error checking auth status: ", err.message);
+        setIsAuthenticated(false);
       }
     };
+    checkAuthStatus();
+  }, [location]);
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/auth/logout", {
+        method: "POST",
+        credentials: "include", // include cookies
+      });
+
+      if (response.ok) {
+        alert("You have been logged out");
+        // window.globalVariable = false;
+        // window.globalVariable2 = true;
+        setIsAuthenticated(false);
+        navigate("/"); // redirect to home page
+      } else {
+        throw new Error("Logout failed");
+      }
+    } catch (err) {
+      console.log("Error during logout: ", err.message);
+      alert("An error occurred while logging out", err.message);
+    }
+  };
 
   return (
     <Navbar expand="lg" sticky="top">
@@ -49,12 +74,13 @@ function Header() {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav" className="justify-content">
           <Nav className="me-auto">
-              <Nav.Item className="mx-2">
-                <Link to="/" className={path === "/" ? "active" : ""}>
-                  Home
-                </Link>
-              </Nav.Item>
-            {(window.globalVariable2 || isLoginPage || isRegistrationPage) && (
+            <Nav.Item className="mx-2">
+              <Link to="/" className={path === "/" ? "active" : ""}>
+                Home
+              </Link>
+            </Nav.Item>
+            {/* (window.globalVariable2 || isLoginPage || isRegistrationPage) */}
+            {!isAuthenticated && (
               <>
                 <Nav.Item className="mx-2">
                   <Link
@@ -74,61 +100,44 @@ function Header() {
                 </Nav.Item>
               </>
             )}
-            {(window.globalVariable) && (
-              <Nav.Item className="mx-2">
-                <Link
-                  to="/mysurveys"
-                  className={path === "/mysurveys" ? "active" : ""}
-                >
-                  My Surveys
-                </Link>
-              </Nav.Item>
+            {/* window.globalVariable */}
+            {isAuthenticated && (
+              <>
+                <Nav.Item className="mx-2">
+                  <Link
+                    to="/mysurveys"
+                    className={path === "/mysurveys" ? "active" : ""}
+                  >
+                    My Surveys
+                  </Link>
+                </Nav.Item>
+              </>
             )}
-            {window.globalVariable && (
-              <Nav.Item className="mx-2">
-                <Link
-                  onClick={() => handleLogout()}
-                >
-                  Logout
-                </Link>
-              </Nav.Item>
-            )}
+
             {isEditPage && (
               <Nav.Item className="mx-2">
-                <Link
-                  to="/edit"
-                  className={path === "/edit" ? "active" : ""}
-                >
+                <Link to="/edit" className={isEditPage ? "active" : ""}>
                   Edit
                 </Link>
               </Nav.Item>
             )}
             {isUpdatePage && (
               <Nav.Item className="mx-2">
-                <Link
-                  to="/update"
-                  className={path === "/update" ? "active" : ""}
-                >
+                <Link to="/update" className={isUpdatePage ? "active" : ""}>
                   Update
                 </Link>
               </Nav.Item>
             )}
             {isRunPage && (
               <Nav.Item className="mx-2">
-                <Link
-                  to="/run"
-                  className={path === "/run" ? "active" : ""}
-                >
+                <Link to="/run" className={isRunPage ? "active" : ""}>
                   Run
                 </Link>
               </Nav.Item>
             )}
             {isAddPage && (
               <Nav.Item className="mx-2">
-                <Link
-                  to="/add"
-                  className={path === "/add" ? "active" : ""}
-                >
+                <Link to="/add" className={isAddPage ? "active" : ""}>
                   Add
                 </Link>
               </Nav.Item>
@@ -144,6 +153,14 @@ function Header() {
                   </Link>
                 </Nav.Item>
               </>
+            )}
+            {/* window.globalVariable  */}
+            {isAuthenticated && (
+              <Nav.Item className="mx-2">
+                <Button variant="outline-dark" size="md" onClick={handleLogout}>
+                  Logout
+                </Button>
+              </Nav.Item>
             )}
           </Nav>
         </Navbar.Collapse>
