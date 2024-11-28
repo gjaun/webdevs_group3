@@ -92,4 +92,23 @@ router.post("/logout", (req, res) => {
   res.status(200).json({ message: "Logged out successfully" });
 });
 
+// check status route for check authenticated or not
+router.get("/status", (req, res) => {
+  const token = req.cookies.jwt;
+
+  if (!token) {
+    return res
+      .status(401)
+      .json({ authenticated: false, message: "Not logged in" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    res.status(200).json({ authenticated: true, userId: decoded.id });
+  } catch (err) {
+    console.log("Error verifying token:", err.message);
+    res.status(401).json({ authenticated: false, message: "Invalid token" });
+  }
+});
+
 module.exports = router;
