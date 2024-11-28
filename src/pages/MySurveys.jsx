@@ -41,7 +41,8 @@ function MySurveys() {
 
       if (response.ok) {
         alert("Survey Deleted");
-        questionsDelete(id);
+        await questionsDelete(id);
+        setSurveys((prevState) => prevState.filter((item) => item._id !== id));
       } else {
         throw new Error("Delete failed");
       }
@@ -69,7 +70,7 @@ function MySurveys() {
       console.log("Error during Delete: ", err.message);
       alert("An error occurred while deleting");
     }
-    window.location.reload(false);
+    // window.location.reload(false);
   };
 
   if (error) {
