@@ -7,17 +7,14 @@ function Header() {
   const location = useLocation();
   const path = location.pathname;
   const navigate = useNavigate();
-  // paths for hide home link
-  const isLoginPage = path === "/login";
-  const isRegistrationPage = path === "/registration";
-  const isMySurveyPage = path === "/mysurveys";
+  // paths for hide links
   const isCreatePage = path === "/create";
   const isEditPage = path.startsWith("/edit");
   const isUpdatePage = path.startsWith("/update");
   const isRunPage = path.startsWith("/run");
   const isAddPage = path.startsWith("/add");
 
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // check isAuthenticated or not
   useEffect(() => {
