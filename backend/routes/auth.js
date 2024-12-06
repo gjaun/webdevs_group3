@@ -32,7 +32,7 @@ router.post("/registration", async (req, res) => {
       httpOnly: true,
       secure: true,
       maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days
-      // sameSite: "None", // cross-site requests
+      sameSite: "None", // cross-site requests
       domain: "render.com",
     });
 
@@ -69,7 +69,7 @@ router.post("/login", async (req, res) => {
       httpOnly: true,
       secure: true,
       maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days
-      // sameSite: "None", // cross-site requests
+      sameSite: "None", // cross-site requests
       domain: "render.com",
     });
 
@@ -94,7 +94,7 @@ router.post("/logout", (req, res) => {
     httpOnly: true,
     secure: true,
     maxAge: 1,
-    // sameSite: "None",
+    sameSite: "None",
     domain: "render.com",
   }); // Set cookie to expire immediately
   res.status(200).json({ message: "Logged out successfully" });

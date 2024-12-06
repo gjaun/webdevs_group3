@@ -7,11 +7,12 @@ const cookieParser = require("cookie-parser");
 const { requireAuth } = require("./utils/utils");
 
 const corsOptions = {
-  origin: [
-    "http://localhost:3000",
-    "http://localhost:5173",
-    "https://webdevs-group3-frontend.onrender.com",
-  ],
+  // origin: [
+  //   "http://localhost:3000",
+  //   "http://localhost:5173",
+  //   "https://webdevs-group3-frontend.onrender.com",
+  // ],
+  origin: "https://webdevs-group3-frontend.onrender.com",
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true, // allow cookies to be sent
 };
