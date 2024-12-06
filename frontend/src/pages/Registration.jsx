@@ -21,14 +21,17 @@ function Registration() {
     }
 
     try {
-      const response = await fetch("http://localhost:8080/auth/registration", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
-        credentials: "include",
-      });
+      const response = await fetch(
+        "https://webdevs-group3-backend.onrender.com/auth/registration",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, password }),
+          credentials: "include",
+        }
+      );
 
       if (response.status === 201) {
         setSuccess(true);

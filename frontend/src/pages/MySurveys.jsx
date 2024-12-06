@@ -11,10 +11,13 @@ function MySurveys() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8080/surveys", {
-          method: "GET",
-          credentials: "include", // include cookies
-        });
+        const response = await fetch(
+          "https://webdevs-group3-backend.onrender.com/surveys",
+          {
+            method: "GET",
+            credentials: "include", // include cookies
+          }
+        );
 
         if (response.status === 401) {
           navigate("/login"); // redirect to login page if unauthorized
@@ -34,10 +37,13 @@ function MySurveys() {
 
   const handleDeleteS = async (id) => {
     try {
-      const response = await fetch("http://localhost:8080/surveys/" + id, {
-        method: "DELETE",
-        credentials: "include", // include cookies
-      });
+      const response = await fetch(
+        "https://webdevs-group3-backend.onrender.com/surveys/" + id,
+        {
+          method: "DELETE",
+          credentials: "include", // include cookies
+        }
+      );
 
       if (response.ok) {
         alert("Survey Deleted");
@@ -55,11 +61,14 @@ function MySurveys() {
   const questionsDelete = async (id) => {
     const data = { surveyid: id };
     try {
-      const response = await fetch("http://localhost:8080/questions", {
-        method: "DELETE",
-        credentials: "include", // include cookies
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        "https://webdevs-group3-backend.onrender.com/questions",
+        {
+          method: "DELETE",
+          credentials: "include", // include cookies
+          body: JSON.stringify(data),
+        }
+      );
 
       if (response.ok) {
         alert("Questions Deleted");
