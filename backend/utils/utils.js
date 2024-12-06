@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -10,7 +10,7 @@ const createToken = (id) => {
 const requireAuth = (req, res, next) => {
   const token = req.cookies.jwt;
   if (!token) {
-    return res.status(401).json({ message: 'Authentication required' });
+    return res.status(401).json({ message: "Authentication required" });
   }
 
   try {
@@ -18,7 +18,8 @@ const requireAuth = (req, res, next) => {
     req.user = decoded;
     next();
   } catch (err) {
-    res.status(403).json({ message: 'Invalid token' });
+    console.log("Token verification failed: ", err);
+    res.status(401).json({ message: "Invalid token" });
   }
 };
 

@@ -30,9 +30,10 @@ router.post("/registration", async (req, res) => {
     // set cookie with JWT
     res.cookie("jwt", token, {
       httpOnly: true,
-      secure: false,
+      secure: true,
       maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days
-      sameSite: "Lax", // cross-site requests
+      sameSite: "None", // cross-site requests
+      domain: "render.com",
     });
 
     res
@@ -66,9 +67,10 @@ router.post("/login", async (req, res) => {
     // set cookie with JWT
     res.cookie("jwt", token, {
       httpOnly: true,
-      secure: false,
+      secure: true,
       maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days
-      sameSite: "Lax", // cross-site requests
+      sameSite: "None", // cross-site requests
+      domain: "render.com",
     });
 
     res.status(200).json({ message: "Login successful", userId: user._id });
@@ -88,7 +90,13 @@ router.post("/login", async (req, res) => {
 // logout route
 router.post("/logout", (req, res) => {
   // Clear the JWT cookie
-  res.cookie("jwt", "", { httpOnly: true, maxAge: 1 }); // Set cookie to expire immediately
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    secure: true,
+    maxAge: 1,
+    sameSite: "None",
+    domain: "render.com",
+  }); // Set cookie to expire immediately
   res.status(200).json({ message: "Logged out successfully" });
 });
 

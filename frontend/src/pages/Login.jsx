@@ -31,10 +31,13 @@ function Login(props) {
         }
       );
 
+      console.log(response.status);
+
       if (response.status === 200) {
         window.globalVariable = true;
         window.globalVariable2 = false;
         navigate("/mysurveys");
+        console.log("navigate to /mysurveys triggered");
       } else {
         const resData = await response.json();
         if (response.status === 404) {
