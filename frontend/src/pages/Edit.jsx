@@ -18,14 +18,17 @@ function EditSurvey() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8080/questions/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include", // include cookies
-          body: JSON.stringify(formData),
-        });
+        const response = await fetch(
+          "https://webdevs-group3-backend.onrender.com/questions/",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include", // include cookies
+            body: JSON.stringify(formData),
+          }
+        );
 
         if (response.status === 401) {
           navigate("/login"); // redirect to login page if unauthorized
@@ -45,10 +48,13 @@ function EditSurvey() {
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch("http://localhost:8080/questions/" + id, {
-        method: "DELETE",
-        credentials: "include", // include cookies
-      });
+      const response = await fetch(
+        "https://webdevs-group3-backend.onrender.com/questions/" + id,
+        {
+          method: "DELETE",
+          credentials: "include", // include cookies
+        }
+      );
 
       if (response.ok) {
         alert("Question Deleted");

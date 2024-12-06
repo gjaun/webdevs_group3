@@ -37,14 +37,17 @@ function CreateSurveys(props) {
     }
 
     try {
-      const response = await fetch("http://localhost:8080/questions/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        "https://webdevs-group3-backend.onrender.com/questions/add",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify(data),
+        }
+      );
       if (response.ok) {
         alert("Question Created");
         setFormData({

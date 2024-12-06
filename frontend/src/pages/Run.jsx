@@ -18,14 +18,17 @@ function EditSurvey() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8080/questions/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include", // include cookies
-          body: JSON.stringify(formData),
-        });
+        const response = await fetch(
+          "https://webdevs-group3-backend.onrender.com/questions/",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include", // include cookies
+            body: JSON.stringify(formData),
+          }
+        );
 
         if (response.status === 401) {
           navigate("/login"); // redirect to login page if unauthorized
@@ -43,10 +46,10 @@ function EditSurvey() {
     fetchData();
   }, []);
 
-  const handleSubmit = async() => {
+  const handleSubmit = async () => {
     alert("Survey Submitted");
     try {
-      navigate("/mysurveys")
+      navigate("/mysurveys");
     } catch (err) {
       console.log("Error during Delete: ", err.message);
       alert("An error occurred while deleting");
@@ -93,7 +96,12 @@ function EditSurvey() {
             <p>No questions available...</p> // message when no questions exist
           )}
           <div style={{ display: "flex", justifyContent: "end" }}>
-            <Button variant="outline-dark" size="lg" className="mb=3" onClick = {() => handleSubmit()}>
+            <Button
+              variant="outline-dark"
+              size="lg"
+              className="mb=3"
+              onClick={() => handleSubmit()}
+            >
               Submit
             </Button>
           </div>

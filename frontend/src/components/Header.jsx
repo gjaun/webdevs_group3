@@ -20,10 +20,13 @@ function Header() {
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
-        const response = await fetch("http://localhost:8080/auth/status", {
-          method: "GET",
-          credentials: "include",
-        });
+        const response = await fetch(
+          "https://webdevs-group3-backend.onrender.com/auth/status",
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
         if (response.ok) {
           const data = await response.json();
           setIsAuthenticated(data.authenticated);
@@ -40,10 +43,13 @@ function Header() {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://localhost:8080/auth/logout", {
-        method: "POST",
-        credentials: "include", // include cookies
-      });
+      const response = await fetch(
+        "https://webdevs-group3-backend.onrender.com/auth/logout",
+        {
+          method: "POST",
+          credentials: "include", // include cookies
+        }
+      );
 
       if (response.ok) {
         alert("You have been logged out");
