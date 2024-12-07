@@ -1,10 +1,9 @@
 const express = require("express");
-const jwt = require("jsonwebtoken");
 const router = express.Router();
 const User = require("../models/user");
 const { createToken } = require("../utils/utils");
 
-// registration route
+// Registration Route
 router.post("/registration", async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -15,39 +14,27 @@ router.post("/registration", async (req, res) => {
         .json({ message: "Username and password are required" });
     }
 
-    // check if username already exists
+    // Check if username already exists
     const existingUser = await User.findOne({ username });
     if (existingUser) {
       return res.status(400).json({ message: "Username already exists" });
     }
 
-    // create a new user
+    // Create a new user
     const user = await User.create({ username, password });
 
-    // generate a token
+    // Generate a JWT
     const token = createToken(user._id);
 
-    // set cookie with JWT
-    res.cookie("jwt", token, {
-      httpOnly: true,
-      secure: true,
-      maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days
-      sameSite: "None", // cross-site requests
-      domain: "render.com",
-    });
-
-    res
-      .status(201)
-      .json({ message: "User registered successfully", userId: user._id });
+    // Return the token in the response
+    res.status(201).json({ token, message: "User registered successfully" });
   } catch (err) {
     console.error("Error during registration:", err.message);
-    res
-      .status(500)
-      .json({ message: "Internal server error", error: err.message });
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
-// login route
+// Login Route
 router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -58,22 +45,14 @@ router.post("/login", async (req, res) => {
         .json({ message: "Username and password are required" });
     }
 
-    // authenticate user
+    // Authenticate user
     const user = await User.login(username, password);
 
-    // generate a token
+    // Generate a JWT
     const token = createToken(user._id);
 
-    // set cookie with JWT
-    res.cookie("jwt", token, {
-      httpOnly: true,
-      secure: true,
-      maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days
-      sameSite: "None", // cross-site requests
-      domain: "render.com",
-    });
-
-    res.status(200).json({ message: "Login successful", userId: user._id });
+    // Return the token in the response
+    res.status(200).json({ token, message: "Login successful" });
   } catch (err) {
     if (
       err.message === "Incorrect username" ||
@@ -83,38 +62,30 @@ router.post("/login", async (req, res) => {
     }
 
     console.error("Error during login:", err.message);
-    res.status(500).json({ message: "Server error", error: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 });
 
-// logout route
+// Logout Route
 router.post("/logout", (req, res) => {
-  // Clear the JWT cookie
-  res.cookie("jwt", "", {
-    httpOnly: true,
-    secure: true,
-    maxAge: 1,
-    sameSite: "None",
-    domain: "render.com",
-  }); // Set cookie to expire immediately
   res.status(200).json({ message: "Logged out successfully" });
 });
 
-// check status route for check authenticated or not
+// Check Authentication Status
 router.get("/status", (req, res) => {
-  const token = req.cookies.jwt;
-
-  if (!token) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res
       .status(401)
       .json({ authenticated: false, message: "Not logged in" });
   }
 
+  const token = authHeader.split(" ")[1];
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     res.status(200).json({ authenticated: true, userId: decoded.id });
   } catch (err) {
-    console.log("Error verifying token:", err.message);
+    console.error("Error verifying token:", err.message);
     res.status(401).json({ authenticated: false, message: "Invalid token" });
   }
 });

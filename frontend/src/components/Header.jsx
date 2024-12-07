@@ -43,26 +43,28 @@ function Header() {
 
   const handleLogout = async () => {
     try {
+      // Call the backend logout endpoint (optional)
       const response = await fetch(
         "https://webdevs-group3-backend.onrender.com/auth/logout",
         {
           method: "POST",
-          credentials: "include", // include cookies
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
 
-      if (response.ok) {
-        alert("You have been logged out");
-        // window.globalVariable = false;
-        // window.globalVariable2 = true;
-        setIsAuthenticated(false);
-        navigate("/"); // redirect to home page
+      if (response.status === 200) {
+        // Clear token from localStorage
+        localStorage.removeItem("authToken");
+
+        // Redirect to the login page
+        navigate("/login");
       } else {
-        throw new Error("Logout failed");
+        console.error("Failed to log out");
       }
     } catch (err) {
-      console.log("Error during logout: ", err.message);
-      alert("An error occurred while logging out", err.message);
+      console.error("Error during logout:", err);
     }
   };
 
