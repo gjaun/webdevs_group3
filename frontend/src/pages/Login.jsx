@@ -27,30 +27,19 @@ function Login(props) {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ username, password }),
-          credentials: "include",
         }
       );
 
-      console.log(response.status);
-
       if (response.status === 200) {
-        window.globalVariable = true;
-        window.globalVariable2 = false;
+        const resData = await response.json();
+        localStorage.setItem("authToken", resData.token); // Store JWT in localStorage
         navigate("/mysurveys");
-        console.log("navigate to /mysurveys triggered");
       } else {
         const resData = await response.json();
-        if (response.status === 404) {
-          setError(resData.message || "User not found");
-          setShowRegisterPrompt(true);
-        } else {
-          setError(resData.message || "Invalid username or password");
-          setShowRegisterPrompt(false);
-        }
+        setError(resData.message || "Invalid username or password");
       }
     } catch (err) {
       setError("Error connecting to the server. Please try again.");
-      setShowRegisterPrompt(false);
     }
   };
 
