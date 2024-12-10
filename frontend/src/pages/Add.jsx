@@ -37,14 +37,22 @@ function CreateSurveys(props) {
     }
 
     try {
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        alert("Not authenticated. Redirecting to login.");
+        navigate("/login");
+        return;
+      }
+
       const response = await fetch(
         "https://webdevs-group3-backend.onrender.com/questions/add",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Include JWT
           },
-          credentials: "include",
+          // credentials: "include",
           body: JSON.stringify(data),
         }
       );
@@ -59,6 +67,9 @@ function CreateSurveys(props) {
         });
         setValidated(false);
         navigate("/edit/" + params.id + "/" + params.name); // navigate to edit page
+      } else if (response.status === 401) {
+        alert("Authentication required. Redirecting to login.");
+        navigate("/login");
       } else {
         alert("Failed to submit question...");
       }

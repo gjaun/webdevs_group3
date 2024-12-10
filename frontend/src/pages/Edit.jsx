@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Spinner } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 
 function EditSurvey() {
@@ -14,9 +14,18 @@ function EditSurvey() {
     // password: '',
     // user_pass: '',
   });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
+      const token = localStorage.getItem("authToken"); // load token stored in localStorage
+      if (!token) {
+        alert("Not authenticated. Redirecting to login.");
+        navigate("/login");
+        return;
+      }
+
+      setLoading(true); // loading state true
       try {
         const response = await fetch(
           "https://webdevs-group3-backend.onrender.com/questions/",
@@ -24,13 +33,14 @@ function EditSurvey() {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`, // token from localStorage
             },
-            credentials: "include", // include cookies
             body: JSON.stringify(formData),
           }
         );
 
         if (response.status === 401) {
+          alert("Authentication required. Redirecting to login.");
           navigate("/login"); // redirect to login page if unauthorized
         } else if (!response.ok) {
           throw new Error("Failed to load questions");
@@ -40,24 +50,38 @@ function EditSurvey() {
         }
       } catch (err) {
         setError(err.message || "An unknown error occurred");
+      } finally {
+        setLoading(false); // stop loading
       }
     };
 
     fetchData();
-  }, []);
+  }, [formData, navigate]);
 
   const handleDelete = async (id) => {
+    const token = localStorage.getItem("authToken"); // load token stored in localStorage
+    if (!token) {
+      alert("Not authenticated. Redirecting to login.");
+      navigate("/login");
+      return;
+    }
+
     try {
       const response = await fetch(
         "https://webdevs-group3-backend.onrender.com/questions/" + id,
         {
           method: "DELETE",
-          credentials: "include", // include cookies
+          headers: {
+            Authorization: `Bearer ${token}`, // token from localStorage
+          },
         }
       );
 
       if (response.ok) {
         alert("Question Deleted");
+        setSurveys((prevQuestions) =>
+          prevQuestions.filter((question) => question._id !== id)
+        );
       } else {
         throw new Error("Delete failed");
       }
@@ -65,7 +89,6 @@ function EditSurvey() {
       console.log("Error during Delete: ", err.message);
       alert("An error occurred while deleting");
     }
-    window.location.reload(false);
   };
 
   if (error) {
@@ -100,7 +123,19 @@ function EditSurvey() {
               Add Question
             </Button>
           </div>
-          {questions.length > 0 ? (
+          {loading ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            </div>
+          ) : questions.length > 0 ? (
             <ul>
               {questions.map((item) => (
                 <li key={item._id} className="surveyList">

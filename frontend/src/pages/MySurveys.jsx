@@ -1,47 +1,72 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 function MySurveys() {
   const [surveys, setSurveys] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
+      const token = localStorage.getItem("authToken"); // load token stored in localStorage
+      if (!token) {
+        setError("Not authenticated. Please log in.");
+        navigate("/login");
+        return;
+      }
+
+      setLoading(true); // loading state true
       try {
         const response = await fetch(
           "https://webdevs-group3-backend.onrender.com/surveys",
           {
             method: "GET",
-            credentials: "include", // include cookies
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`, // token from localStorage
+            },
           }
         );
 
-        if (response.status === 401) {
-          navigate("/login"); // redirect to login page if unauthorized
-        } else if (!response.ok) {
-          throw new Error("Failed to load surveys");
-        } else {
+        if (response.status === 200) {
           const data = await response.json();
           setSurveys(data);
+        } else if (response.status === 401) {
+          setError("Authentication required. Redirecting to login.");
+          navigate("/login");
+        } else {
+          const resData = await response.json();
+          setError(resData.message || "Failed to fetch surveys");
         }
       } catch (err) {
         setError(err.message || "An unknown error occurred");
+      } finally {
+        setLoading(false); // stop loading
       }
     };
 
     fetchData();
-  }, []);
+  }, [navigate]);
 
   const handleDeleteS = async (id) => {
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      setError("Not authenticated. Please log in.");
+      return;
+    }
+
+    setLoading(true); // loading state true
     try {
       const response = await fetch(
         "https://webdevs-group3-backend.onrender.com/surveys/" + id,
         {
           method: "DELETE",
-          credentials: "include", // include cookies
+          headers: {
+            Authorization: `Bearer ${token}`, // token from localStorage
+          },
         }
       );
 
@@ -55,17 +80,24 @@ function MySurveys() {
     } catch (err) {
       console.log("Error during Delete: ", err.message);
       alert("An error occurred while deleting");
+    } finally {
+      setLoading(false); // stop loading
     }
   };
 
   const questionsDelete = async (id) => {
+    const token = localStorage.getItem("authToken");
     const data = { surveyid: id };
+
     try {
       const response = await fetch(
         "https://webdevs-group3-backend.onrender.com/questions",
         {
           method: "DELETE",
-          credentials: "include", // include cookies
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // token from localStorage
+          },
           body: JSON.stringify(data),
         }
       );
@@ -79,7 +111,6 @@ function MySurveys() {
       console.log("Error during Delete: ", err.message);
       alert("An error occurred while deleting");
     }
-    // window.location.reload(false);
   };
 
   if (error) {
@@ -105,8 +136,19 @@ function MySurveys() {
               Create Survey
             </Button>
           </div>
-
-          {surveys.length > 0 ? (
+          {loading ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            </div>
+          ) : surveys.length > 0 ? (
             <ul>
               {surveys.map((item) => (
                 <li key={item._id} className="surveyList">
