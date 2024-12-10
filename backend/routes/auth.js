@@ -73,16 +73,16 @@ router.post("/logout", (req, res) => {
 
 // Check Authentication Status
 router.get("/status", (req, res) => {
-  const authHeader = req.headers.authorization;
+  const authHeader = req.headers.authorization; // check Authorization header
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res
       .status(401)
       .json({ authenticated: false, message: "Not logged in" });
   }
 
-  const token = authHeader.split(" ")[1];
+  const token = authHeader.split(" ")[1]; // only get token
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET); // jwt verification
     res.status(200).json({ authenticated: true, userId: decoded.id });
   } catch (err) {
     console.error("Error verifying token:", err.message);

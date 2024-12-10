@@ -18,51 +18,59 @@ function Header() {
 
   // check isAuthenticated or not
   useEffect(() => {
-    const checkAuthStatus = async () => {
-      try {
-        const response = await fetch(
-          "https://webdevs-group3-backend.onrender.com/auth/status",
-          {
-            method: "GET",
-            credentials: "include",
-          }
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setIsAuthenticated(data.authenticated);
-        } else {
-          setIsAuthenticated(false);
-        }
-      } catch (err) {
-        console.log("Error checking auth status: ", err.message);
-        setIsAuthenticated(false);
-      }
-    };
-    checkAuthStatus();
+    const token = localStorage.getItem("authToken");
+    setIsAuthenticated(!!token);
   }, [location]);
+
+  //   const checkAuthStatus = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         "https://webdevs-group3-backend.onrender.com/auth/status",
+  //         {
+  //           method: "GET",
+  //           credentials: "include",
+  //         }
+  //       );
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         setIsAuthenticated(data.authenticated);
+  //       } else {
+  //         setIsAuthenticated(false);
+  //       }
+  //     } catch (err) {
+  //       console.log("Error checking auth status: ", err.message);
+  //       setIsAuthenticated(false);
+  //     }
+  //   };
+  //   checkAuthStatus();
+  // }, [location]);
 
   const handleLogout = async () => {
     try {
       // Call the backend logout endpoint (optional)
-      const response = await fetch(
-        "https://webdevs-group3-backend.onrender.com/auth/logout",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      alert("logging out...");
+      localStorage.removeItem("authToken");
 
-      if (response.status === 200) {
-        // Clear token from localStorage
-        localStorage.removeItem("authToken");
+      navigate("/login");
+      // const response = await fetch(
+      //   "https://webdevs-group3-backend.onrender.com/auth/logout",
+      //   {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //   }
+      // );
 
-        // Redirect to the login page
-        navigate("/login");
-      } else {
-        console.error("Failed to log out");
-      }
+      // if (response.status === 200) {
+      //   // Clear token from localStorage
+      //   localStorage.removeItem("authToken");
+
+      //   // Redirect to the login page
+      //   navigate("/login");
+      // } else {
+      //   console.error("Failed to log out");
+      // }
     } catch (err) {
       console.error("Error during logout:", err);
     }
