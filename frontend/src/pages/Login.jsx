@@ -51,7 +51,7 @@ function Login(props) {
   };
 
   return (
-    <Container>
+    <Container className="wrapper">
       <div className="login-container">
         <h1>Log In</h1>
         {error && <Alert variant="danger">{error}</Alert>}

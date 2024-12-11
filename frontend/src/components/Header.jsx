@@ -77,7 +77,7 @@ function Header() {
   };
 
   return (
-    <Navbar expand="lg" sticky="top">
+    <Navbar expand="lg" sticky="top" className="navbar">
       <Container className="d-flex align-items-center">
         <Navbar.Brand>
           <Link to="/">
@@ -170,7 +170,7 @@ function Header() {
             {/* window.globalVariable  */}
             {isAuthenticated && (
               <Nav.Item className="mx-2">
-                <Button variant="outline-dark" size="md" onClick={handleLogout}>
+                <Button variant="outline-dark" className="logout" size="md" onClick={handleLogout}>
                   Logout
                 </Button>
               </Nav.Item>

@@ -46,7 +46,7 @@ function Registration() {
   };
 
   return (
-    <Container>
+    <Container className="wrapper">
       <div className="registration-container">
         <h1>Registration</h1>
         {success && (
