@@ -89,14 +89,14 @@ function EditSurvey() {
 
   if (error) {
     return (
-      <Container>
+      <Container className="wrapper">
         <div>Error: {error}</div>
       </Container>
     );
   }
 
   return (
-    <Container>
+    <Container className="wrapper">
       <Row>
         <Col>
           <h1>Survey: {params.name}</h1>

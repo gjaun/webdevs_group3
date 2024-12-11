@@ -79,7 +79,7 @@ function CreateSurveys(props) {
   };
 
   return (
-    <Container>
+    <Container className="wrapper">
       <h1>Add Question</h1>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Form.Group controlId="validationCustom01">

@@ -79,7 +79,7 @@ function CreateSurveys(props) {
   };
 
   return (
-    <Container>
+    <Container className="wrapper">
       <h1>Update Question</h1>
       <p style={{ fontSize: "24px" }}>
         Original Question: <strong>{params.question}</strong>

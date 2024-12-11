@@ -93,14 +93,14 @@ function EditSurvey() {
 
   if (error) {
     return (
-      <Container>
+      <Container className="wrapper">
         <div>Error: {error}</div>
       </Container>
     );
   }
 
   return (
-    <Container>
+    <Container className="wrapper">
       <Row>
         <Col>
           <h1>Questions</h1>

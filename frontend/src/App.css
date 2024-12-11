@@ -1,11 +1,57 @@
 #root {
-  max-width: 1300px;
+  max-width: 1320px;
   width: 100%;
-  margin: 0 auto;
+  margin: auto;
+  background-color: white;
+  box-shadow: 5px 5px #595959;
+  min-height: 100vh;
 }
 
 body {
   box-sizing: border-box;
+  width: 100%;
+  background-color: #EEEEEE;
+}
+
+.sequenceTxt {
+  text-align: center;
+  font-size: 20px;
+  width: 300px;
+}
+
+.explainAlign {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 100px;
+}
+
+.headTitle {
+  padding-top: 40px;
+}
+
+h4 {
+  text-align: center;
+}
+
+h3 {
+  text-align: center;
+  padding-top: 50px;
+  padding-bottom: 40px;
+  font-weight: bold;
+}
+
+.numbering {
+  border: 1px solid Black;
+}
+
+.wrapper {
+  min-height: 74.75vh;
+  margin-bottom: 30px;
+}
+
+.logout {
+  position: absolute;
+  left: 92%;
 }
 
 .logo {
@@ -33,6 +79,25 @@ div button:nth-child(1) {
   border-bottom: 2px solid;
 }
 
+footer {
+  background-color: #C5C6C7;
+  padding-top: 1px;
+  margin-left: -13px;
+  width: 1321px;
+  margin-top: auto;
+}
+
+.descTxt {
+  margin-left: 30px;
+  font-size: 20px;
+}
+
+.descTxt2 {
+  margin-left: 30px;
+  font-size: 20px;
+  width: 625px;
+}
+
 .surveyDesc {
   display: flex;
   justify-content: space-between;
@@ -47,12 +112,46 @@ div button:nth-child(1) {
 }
 
 .homeTxt {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
+  margin-left: 30px;
 }
 
 .imgBorder {
   border: 1px solid black;
+  width: 600px;
+}
+
+.imgBorder3 {
+  border: 1px solid black;
+  width: 600px;
+}
+
+.img2 {
+  position: relative;
+  left: 20px;
+}
+
+.vertAlign {
+  padding: 85px 0;
+}
+
+.vertAlign2 {
+  padding-top: 55px;
+}
+
+.wecomeTxt {
+  padding-top: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.imgBorder2 {
+  border: 1px solid black;
+  margin-bottom: 30px;
+  width: 1320px;
+  margin-left: -25px;
 }
 
 .surveyList button {
