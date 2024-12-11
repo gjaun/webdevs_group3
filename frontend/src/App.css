@@ -11,6 +11,7 @@ body {
   box-sizing: border-box;
   width: 100%;
   background-color: #EEEEEE;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .sequenceTxt {
@@ -38,6 +39,13 @@ h3 {
   padding-top: 50px;
   padding-bottom: 40px;
   font-weight: bold;
+}
+
+.welcomeTxt {
+  font-size: 3.2em;
+  line-height: 1.1;
+  padding-left: 20px;
+  width: 655px;
 }
 
 .numbering {
@@ -137,7 +145,7 @@ footer {
 }
 
 .vertAlign2 {
-  padding-top: 55px;
+  padding-top: 45px;
 }
 
 .wecomeTxt {
@@ -152,6 +160,11 @@ footer {
   margin-bottom: 30px;
   width: 1320px;
   margin-left: -25px;
+}
+
+.split2 {
+  margin-bottom: 50px;
+  margin-top: 50px;
 }
 
 .surveyList button {

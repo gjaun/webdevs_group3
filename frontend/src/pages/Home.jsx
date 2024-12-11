@@ -1,19 +1,45 @@
 import React from "react";
 import { Container, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import CreateS from "../assets/images/happyimg2.jpg";
-import welcomemsg from "../assets/images/welcomemsg.png";
-import CreateQ from "../assets/images/happyimg3.jpg";
+import happyone from "../assets/images/happyimg2.jpg";
+import happythree from "../assets/images/happyimg4.jpg";
+import happytwo from "../assets/images/happyimg3.jpg";
 
 function Home(props) {
   const navigate = useNavigate();
 
   return (
     <Container className="homepage">
-      <p className="wecomeTxt">
-        Welcome to webDevs.com! A website for building and running simple
-        surveys! Register to begin building surveys today.
-      </p>
+      <div className="split2">
+      <div className="homeAlign">
+        <div className="vertAlign2">
+          <h1 className="welcomeTxt">Welcome to webDevs.com! A website for building and running simple surveys! Register to begin building surveys today!</h1>
+        </div>
+        <div className="img2">
+          <img
+            src={happythree}
+            alt="Create Survey Image"
+            className="imgBorder3"
+          ></img>
+        </div>
+      </div>
+      </div>
+      <div style={{ display: "flex", justifyContent: "left", paddingBottom: 100, paddingLeft: 100 }}>
+        <Button
+          variant="outline-dark"
+          size="lg"
+          onClick={() => navigate("/login")}
+        >
+          Login
+        </Button>
+        <Button
+          variant="outline-dark"
+          size="lg"
+          onClick={() => navigate("/registration")}
+        >
+          Register
+        </Button>
+      </div>
       <h3>How Our Survey Site Works</h3>
       <div className="explainAlign">
         <div className="innerTxt">
@@ -36,7 +62,7 @@ function Home(props) {
       <div className="homeAlign">
         <div>
           <img
-            src={CreateS}
+            src={happyone}
             alt="Create Survey Image"
             className="imgBorder"
           ></img>
@@ -54,32 +80,15 @@ function Home(props) {
         <div className="vertAlign">
           <p className="homeTxt">Easy to Understand and Easy to Use</p>
           <p className="descTxt2">Our site is designed to be easy to use and understand. Surveys on our site are flexible for all your needs. Follow our three easy steps to get building surveys fast.</p>
-          <p className="descTxt2"></p>
         </div>
         <div className="img2">
           <img
-            src={CreateQ}
+            src={happytwo}
             alt="Create Survey Image"
             className="imgBorder3"
           ></img>
         </div>
       </div>
-      </div>
-      <div style={{ display: "flex", justifyContent: "end" }}>
-        <Button
-          variant="outline-dark"
-          size="lg"
-          onClick={() => navigate("/login")}
-        >
-          Log In
-        </Button>
-        <Button
-          variant="outline-dark"
-          size="lg"
-          onClick={() => navigate("/registration")}
-        >
-          Registration
-        </Button>
       </div>
     </Container>
   );
