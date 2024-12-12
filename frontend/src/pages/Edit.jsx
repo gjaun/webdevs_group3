@@ -93,15 +93,19 @@ function EditSurvey() {
 
   if (error) {
     return (
-      <Container className="wrapper">
-        <div>Error: {error}</div>
+      <Container>
+        <Row>
+          <Col>
+            <div>Error: {error}</div>
+          </Col>
+        </Row>
       </Container>
     );
   }
 
   return (
-    <Container className="wrapper">
-      <Row>
+    <Container>
+      <Row className="questions">
         <Col>
           <h1>Questions</h1>
           <div style={{ display: "flex", justifyContent: "end" }}>

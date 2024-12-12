@@ -89,15 +89,19 @@ function EditSurvey() {
 
   if (error) {
     return (
-      <Container className="wrapper">
-        <div>Error: {error}</div>
+      <Container>
+        <Row>
+          <Col>
+            <div>Error: {error}</div>
+          </Col>
+        </Row>
       </Container>
     );
   }
 
   return (
-    <Container className="wrapper">
-      <Row>
+    <Container>
+      <Row className="run_survey">
         <Col>
           <h1>Survey: {params.name}</h1>
           <div style={{ display: "flex", justifyContent: "end" }}>
@@ -143,7 +147,7 @@ function EditSurvey() {
           ) : (
             <p>No questions available...</p> // message when no questions exist
           )}
-          <div style={{ display: "flex", justifyContent: "end" }}>
+          <div className="button_group">
             <Button
               variant="outline-dark"
               size="lg"

@@ -79,104 +79,51 @@ function CreateSurveys(props) {
   };
 
   return (
-    <Container className="wrapper">
-      <h1>Update Question</h1>
-      <p style={{ fontSize: "24px" }}>
-        Original Question: <strong>{params.question}</strong>
-      </p>
-      <div style={{ display: "flex", justifyContent: "end" }}>
-        <Button
-          variant="outline-dark"
-          size="lg"
-          className="mb-3"
-          style={{ marginRight: "25px" }}
-          onClick={() => navigate("/edit/" + params.id + "/" + params.name)}
-        >
-          Back to questions
-        </Button>
-      </div>
-
-      <Form noValidate validated={validated} onSubmit={handleSubmit}>
-        <Form.Group controlId="validationCustom01">
-          <Form.Label>Question</Form.Label>
-          <Form.Control
-            required
-            type="text"
-            placeholder="Question"
-            size="lg"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-          />
-          <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-        </Form.Group>
-        {/*<Form.Group controlId="validationCustom02">
-          <Form.Label>Type</Form.Label>
-          <Form.Control
-            required
-            type="text"
-            placeholder="Survey Type"
-            size="sm"
-            name="type"
-            value={formData.type}
-            onChange={handleChange}
-          />
-          <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-        </Form.Group>
-        {/* <Form.Group controlId="validationCustom03">
-          <Form.Label>Creator</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Survey creator"
-            required
-            size="sm"
-            name="creator"
-            value={formData.creator}
-            onChange={handleChange}
-          />
-          <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-        </Form.Group> */}
-        {/* <Form.Group controlId="validationCustom04">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            required
-            size="sm"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-          <Form.Control.Feedback type="invalid">
-            Please provide a valid password
-          </Form.Control.Feedback>
-        </Form.Group> */}
-        {/* <Form.Group controlId="validationCustom05">
-          <Form.Label>User Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="User_Pass"
-            required
-            size="sm"
-            name="user_pass"
-            value={formData.user_pass}
-            onChange={handleChange}
-          />
-          <Form.Control.Feedback type="invalid">
-            Please provide a valid password.
-          </Form.Control.Feedback>
-        </Form.Group> */}
-        <div style={{ display: "flex", justifyContent: "end" }}>
-          <Button
-            variant="outline-dark"
-            size="lg"
-            type="submit"
-            className="mt-5"
-          >
-            Submit form
-          </Button>
-        </div>
-      </Form>
+    <Container>
+      <Row className="update">
+        <Col>
+          <h1>Update Question</h1>
+          <p style={{ fontSize: "24px" }}>
+            Original Question: <strong>{params.question}</strong>
+          </p>
+          <div style={{ display: "flex", justifyContent: "end" }}>
+            <Button
+              variant="outline-dark"
+              size="lg"
+              className="mb-3"
+              style={{ marginRight: "25px" }}
+              onClick={() => navigate("/edit/" + params.id + "/" + params.name)}
+            >
+              Back to questions
+            </Button>
+          </div>
+          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            <Form.Group controlId="validationCustom01">
+              <Form.Label>Question</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                placeholder="Question"
+                size="lg"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+              />
+              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+            </Form.Group>
+            <div style={{ display: "flex", justifyContent: "end" }}>
+              <Button
+                variant="outline-dark"
+                size="lg"
+                type="submit"
+                className="mt-5"
+              >
+                Submit form
+              </Button>
+            </div>
+          </Form>
+        </Col>
+      </Row>
     </Container>
   );
 }
