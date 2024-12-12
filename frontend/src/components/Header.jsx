@@ -22,29 +22,6 @@ function Header() {
     setIsAuthenticated(!!token);
   }, [location]);
 
-  //   const checkAuthStatus = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         "https://webdevs-group3-backend.onrender.com/auth/status",
-  //         {
-  //           method: "GET",
-  //           credentials: "include",
-  //         }
-  //       );
-  //       if (response.ok) {
-  //         const data = await response.json();
-  //         setIsAuthenticated(data.authenticated);
-  //       } else {
-  //         setIsAuthenticated(false);
-  //       }
-  //     } catch (err) {
-  //       console.log("Error checking auth status: ", err.message);
-  //       setIsAuthenticated(false);
-  //     }
-  //   };
-  //   checkAuthStatus();
-  // }, [location]);
-
   const handleLogout = async () => {
     try {
       // Call the backend logout endpoint (optional)
@@ -77,7 +54,7 @@ function Header() {
   };
 
   return (
-    <Navbar expand="lg" sticky="top" className="navbar">
+    <Navbar expand="lg" sticky="top" className="navbar justify-content-end">
       <Container className="d-flex align-items-center">
         <Navbar.Brand>
           <Link to="/">
@@ -85,14 +62,16 @@ function Header() {
           </Link>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav" className="justify-content">
-          <Nav className="me-auto">
+        <Navbar.Collapse
+          id="responsive-navbar-nav"
+          className="justify-content-end"
+        >
+          <Nav className="justify-content-end">
             <Nav.Item className="mx-2">
               <Link to="/" className={path === "/" ? "active" : ""}>
                 Home
               </Link>
             </Nav.Item>
-            {/* (window.globalVariable2 || isLoginPage || isRegistrationPage) */}
             {!isAuthenticated && (
               <>
                 <Nav.Item className="mx-2">
@@ -113,7 +92,6 @@ function Header() {
                 </Nav.Item>
               </>
             )}
-            {/* window.globalVariable */}
             {isAuthenticated && (
               <>
                 <Nav.Item className="mx-2">
@@ -167,10 +145,14 @@ function Header() {
                 </Nav.Item>
               </>
             )}
-            {/* window.globalVariable  */}
             {isAuthenticated && (
               <Nav.Item className="mx-2">
-                <Button variant="outline-dark" className="logout" size="md" onClick={handleLogout}>
+                <Button
+                  variant="outline-dark"
+                  className="logout"
+                  size="md"
+                  onClick={handleLogout}
+                >
                   Logout
                 </Button>
               </Nav.Item>
